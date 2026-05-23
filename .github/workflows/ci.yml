@@ -21,9 +21,9 @@ jobs:
       - name: Validate .bat file format
         run: |
           for f in *.bat; do
-            content=$(cat "$f")
-            if ! echo "$content" | grep -qE '^curl ascii\.live/.+$'; then
-              echo "FAIL: $f does not match expected format 'curl ascii.live/<name>'"
+            content=$(cat "$f" | tr -d '\r')
+            if ! echo "$content" | grep -qE '^curl( -[^ ]+)* [^ ]+$'; then
+              echo "FAIL: $f does not match expected format 'curl [flags] <url>'"
               exit 1
             fi
             echo "OK: $f"
@@ -32,11 +32,15 @@ jobs:
       - name: Check endpoints are reachable
         run: |
           for f in *.bat; do
-            endpoint=$(cat "$f" | grep -oE 'ascii\.live/[^ ]+')
-            echo "Checking https://$endpoint ..."
-            curl --head --silent --max-time 10 --fail "https://$endpoint" || {
-              echo "FAIL: https://$endpoint is not reachable"
+            content=$(cat "$f" | tr -d '\r')
+            url=$(echo "$content" | sed 's/^curl\( -[^ ]*\)* //')
+            if ! echo "$url" | grep -qE '^https?://'; then
+              url="https://$url"
+            fi
+            echo "Checking $url ..."
+            curl --head --silent --max-time 10 --fail "$url" || {
+              echo "FAIL: $url is not reachable"
               exit 1
             }
-            echo "OK: https://$endpoint"
+            echo "OK: $url"
           done
