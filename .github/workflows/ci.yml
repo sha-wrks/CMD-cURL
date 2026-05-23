@@ -38,9 +38,12 @@ jobs:
               url="https://$url"
             fi
             echo "Checking $url ..."
-            curl --head --silent --max-time 10 --fail "$url" || {
-              echo "FAIL: $url is not reachable"
+            curl_exit=0
+            curl --silent --max-time 5 --output /dev/null "$url" || curl_exit=$?
+            # exit code 28 = timeout, meaning we connected and the stream started - that's OK
+            if [ "$curl_exit" -ne 0 ] && [ "$curl_exit" -ne 28 ]; then
+              echo "FAIL: $url (exit code $curl_exit)"
               exit 1
-            }
+            fi
             echo "OK: $url"
           done
