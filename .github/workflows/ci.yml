@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check curl is available
+        run: curl --version
+
+      - name: Validate .bat file format
+        run: |
+          for f in *.bat; do
+            content=$(cat "$f")
+            if ! echo "$content" | grep -qE '^curl ascii\.live/.+$'; then
+              echo "FAIL: $f does not match expected format 'curl ascii.live/<name>'"
+              exit 1
+            fi
+            echo "OK: $f"
+          done
+
+      - name: Check endpoints are reachable
+        run: |
+          for f in *.bat; do
+            endpoint=$(cat "$f" | grep -oE 'ascii\.live/[^ ]+')
+            echo "Checking https://$endpoint ..."
+            curl --head --silent --max-time 10 --fail "https://$endpoint" || {
+              echo "FAIL: https://$endpoint is not reachable"
+              exit 1
+            }
+            echo "OK: https://$endpoint"
+          done

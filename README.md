@@ -4,9 +4,9 @@
 
 A collection of Windows Batch scripts that stream ASCII art animations in your terminal using the Windows built-in `curl` command.
 
-</div>
-
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
+</div>
 
 ## Requirements
 
