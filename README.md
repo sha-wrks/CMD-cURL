@@ -1,29 +1,54 @@
-# CMD cURL: Terminal Wizardry
+# CMD-cURL
 
-A "just-for-fun" implementation bringing HTTP capabilities to the restricted Windows Batch ecosystem. This project proves that you don't need modern binaries or heavy runtimes to perform network I/O—just a bit of madness and a well-crafted `.bat` script.
+A collection of Windows Batch scripts that stream ASCII art animations in your terminal using the Windows built-in `curl` command.
 
-## Technical Specifications
-* **Runtime**: Windows Command Processor (`cmd.exe`)
-* **Engine**: Native WinHTTP / MSXML 6.0 Abstraction
-* **Dependency**: Zero (No external `curl.exe` or `wget` required)
-* **Vibe**: 100% Retro, 0% Corporate Bloat
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-## Environment Setup
-Forget complex configurations or environment variables. This is built for the "Double-Click" era:
+## Requirements
 
-1.  **Download/Clone** this repository to your local machine.
-2.  **Navigate** to the folder.
-3.  **Run**: Just double-click the `.bat` file and watch the magic happen.
+- Windows 10 version 1803 or later (curl is included by default)
+- Active internet connection
+
+## Animations
+
+| Script | Animation |
+|---|---|
+| `Donut.bat` | Spinning 3D donut |
+| `Forrest.bat` | Forrest Gump running |
+| `Globe.bat` | Rotating globe |
+| `Nyan.bat` | Nyan Cat |
+| `Parrot.bat` | Party parrot |
+| `Rick.bat` | Rick Astley |
+
+## Installation
 
 ```bash
 git clone https://github.com/sha-wrks/CMD-cURL.git
+cd CMD-cURL
 ```
 
-## Steps to Run
+## Usage
 
-1. **Just start it**
+Double-click any `.bat` file, or run it from the command line:
 
-<div align=center>
-  
-![How to Start](https://github.com/user-attachments/assets/77e66fea-47b4-45ab-afb2-8265f0fdd9b0)
-</div>
+```cmd
+Rick.bat
+```
+
+Press `Ctrl+C` to stop the animation.
+
+## How It Works
+
+Each script calls `curl ascii.live/<name>`, which streams an ASCII art animation over HTTP directly to your terminal. No external binaries or additional dependencies are required beyond the system curl bundled with Windows 10 and later.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for contribution guidelines.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for the security policy and vulnerability reporting process.
+
+## License
+
+MIT. See [LICENSE](LICENSE) for details.
